@@ -250,12 +250,11 @@ opacity:.15;
 
 
 
-<audio id="music" loop>
+<audio id="music" loop preload="auto">
 
-<source src="musica.mp3" type="audio/mpeg">
+<source src="./musica.mp3" type="audio/mpeg">
 
 </audio>
-
 
 
 
@@ -334,9 +333,11 @@ site.style.display="flex";
 
 let musica=document.getElementById("music");
 
+musica.volume = 0.5;
 
-musica.play();
-
+musica.play().catch(error=>{
+console.log("Erro ao tocar música:", error);
+});
 
 
 startTyping();
