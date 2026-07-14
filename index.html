@@ -1,1 +1,692 @@
 
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SISTEMA // ANA</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+
+body{
+
+background:#000;
+
+color:#00ff55;
+
+font-family:'Share Tech Mono',monospace;
+
+overflow-x:hidden;
+
+overflow-y:auto;
+
+}
+
+
+
+canvas{
+
+position:fixed;
+
+top:0;
+
+left:0;
+
+width:100%;
+
+height:100%;
+
+z-index:-1;
+
+}
+
+
+
+
+#gate,
+#site{
+
+min-height:100vh;
+
+display:flex;
+
+flex-direction:column;
+
+justify-content:center;
+
+align-items:center;
+
+text-align:center;
+
+padding:100px 20px;
+
+}
+
+
+
+#site{
+
+display:none;
+
+}
+
+
+
+h1,h2,p{
+
+color:#00ff55;
+
+text-shadow:
+
+0 0 5px #00ff55,
+0 0 15px #00ff55,
+0 0 30px #00ff55;
+
+}
+
+
+
+.typing{
+
+border-right:3px solid #00ff55;
+
+animation:cursor .8s infinite;
+
+}
+
+
+
+@keyframes cursor{
+
+50%{
+
+border-color:transparent;
+
+}
+
+}
+
+
+
+
+.btn{
+
+margin-top:30px;
+
+padding:15px 40px;
+
+background:#001800;
+
+color:#00ff55;
+
+border:2px solid #00ff55;
+
+cursor:pointer;
+
+font-size:18px;
+
+font-family:'Share Tech Mono';
+
+
+box-shadow:
+
+0 0 12px #00ff55,
+inset 0 0 12px #00ff55;
+
+
+transition:.3s;
+
+}
+
+
+
+.btn:hover{
+
+background:#00ff55;
+
+color:#000;
+
+
+transform:scale(1.08);
+
+
+}
+
+
+
+
+#qualities{
+
+margin-top:40px;
+
+max-width:750px;
+
+font-size:20px;
+
+line-height:2;
+
+text-align:left;
+
+}
+
+
+
+
+.rara{
+
+color:#00ff00;
+
+font-weight:bold;
+
+animation:piscar .7s infinite;
+
+
+text-shadow:
+
+0 0 10px #00ff00,
+0 0 25px #00ff00,
+0 0 50px #00ff00;
+
+}
+
+
+
+
+.yure{
+
+color:#00ff55;
+
+font-weight:bold;
+
+text-shadow:
+
+0 0 8px #00ff55,
+0 0 20px #00ff55;
+
+}
+
+
+
+@keyframes piscar{
+
+
+0%,100%{
+
+opacity:1;
+
+}
+
+
+50%{
+
+opacity:.15;
+
+}
+
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<canvas id="matrix"></canvas>
+
+
+
+<audio id="music" loop>
+
+<source src="musica.mp3" type="audio/mpeg">
+
+</audio>
+
+
+
+
+<div id="gate">
+
+
+<h1>NÃO ENTRE...</h1>
+
+
+<button class="btn" id="runaway">
+
+ENTRAR
+
+</button>
+
+
+</div>
+
+
+
+
+
+<div id="site">
+
+
+<h2 id="text" class="typing"></h2>
+
+
+
+<p>
+
+Sistema ativado...
+<br>
+Acessando arquivos desconhecidos...
+
+</p>
+
+
+
+<button class="btn" id="continueBtn">
+
+CONTINUAR
+
+</button>
+
+
+
+<div id="qualities"></div>
+
+
+
+</div>
+
+
+
+
+
+
+
+<script>
+
+
+let mostrando=false;
+
+
+
+runaway.onclick=()=>{
+
+
+gate.style.display="none";
+
+
+site.style.display="flex";
+
+
+
+let musica=document.getElementById("music");
+
+
+musica.play();
+
+
+
+startTyping();
+
+
+startMatrix();
+
+
+}
+
+
+
+
+
+
+function startTyping(){
+
+
+let frase="> ANA FOI DETECTADA NO SISTEMA...";
+
+
+let i=0;
+
+
+text.innerHTML="";
+
+
+let efeito=setInterval(()=>{
+
+
+text.innerHTML+=frase.charAt(i);
+
+
+i++;
+
+
+if(i>=frase.length){
+
+
+clearInterval(efeito);
+
+
+}
+
+
+},55);
+
+
+}
+
+
+
+
+
+
+continueBtn.onclick=showQualities;
+
+
+
+
+
+
+function showQualities(){
+
+
+if(mostrando)return;
+
+
+mostrando=true;
+
+
+continueBtn.style.display="none";
+
+
+
+let arr=[
+
+
+"PROCESSANDO PERFIL...",
+
+
+"ENERGIA FORTE DETECTADA...",
+
+
+"PERSONALIDADE ÚNICA...",
+
+
+"TEM UM JEITO LEVE DE PUXAR ASSUNTO E SE IMPORTAR...",
+
+
+"SENSÍVEL NOS DETALHES, FORTE NA PRESENÇA...",
+
+
+"EXALA UM JEITO QUE DEIXA TUDO MAIS LEVE AO REDOR...",
+
+
+"BELEZA EVIDENTE, DAQUELAS QUE CHAMAM ATENÇÃO SEM ESFORÇO...",
+
+
+"SISTEMA NÃO CONSEGUE IGNORAR...",
+
+
+"ANA NÃO É ALEATÓRIA..."
+
+
+
+];
+
+
+
+qualities.innerHTML="";
+
+
+let linha=0;
+
+
+
+function escreverLinha(){
+
+
+
+if(linha>=arr.length){
+
+
+qualities.innerHTML+=
+
+"<br>> STATUS: <span class='rara'>É RARA</span>";
+
+
+
+setTimeout(()=>{
+
+
+qualities.innerHTML+=
+
+"<br><br>> SISTEMA CRIADO POR: <span class='yure'>YURE</span>";
+
+
+},800);
+
+
+
+return;
+
+
+}
+
+
+
+
+let div=document.createElement("div");
+
+
+div.innerHTML="> ";
+
+
+qualities.appendChild(div);
+
+
+
+let frase=arr[linha];
+
+
+let i=0;
+
+
+
+let efeito=setInterval(()=>{
+
+
+div.innerHTML+=frase.charAt(i);
+
+
+i++;
+
+
+
+if(i>=frase.length){
+
+
+clearInterval(efeito);
+
+
+linha++;
+
+
+setTimeout(escreverLinha,450);
+
+
+}
+
+
+
+},30);
+
+
+
+}
+
+
+
+escreverLinha();
+
+
+
+}
+
+
+
+
+
+
+
+
+
+function startMatrix(){
+
+
+
+let c=document.getElementById("matrix");
+
+
+let ctx=c.getContext("2d");
+
+
+
+c.width=window.innerWidth;
+
+c.height=window.innerHeight;
+
+
+
+let tamanho=18;
+
+
+let colunas=Math.floor(c.width/tamanho);
+
+
+
+let gotas=[];
+
+
+
+for(let i=0;i<colunas;i++){
+
+gotas[i]=1;
+
+}
+
+
+
+
+setInterval(()=>{
+
+
+
+ctx.fillStyle="rgba(0,0,0,.08)";
+
+
+ctx.fillRect(
+
+0,
+
+0,
+
+c.width,
+
+c.height
+
+);
+
+
+
+ctx.fillStyle="#00ff55";
+
+
+ctx.font=tamanho+"px Share Tech Mono";
+
+
+
+
+
+for(let i=0;i<gotas.length;i++){
+
+
+
+let letra=Math.random()>0.5?"1":"0";
+
+
+
+ctx.fillText(
+
+letra,
+
+i*tamanho,
+
+gotas[i]*tamanho
+
+);
+
+
+
+if(gotas[i]*tamanho>c.height && Math.random()>.975){
+
+
+gotas[i]=0;
+
+
+}
+
+
+
+gotas[i]++;
+
+
+
+}
+
+
+
+},35);
+
+
+
+}
+
+
+
+
+
+
+
+window.onresize=()=>{
+
+
+let c=document.getElementById("matrix");
+
+
+c.width=window.innerWidth;
+
+
+c.height=window.innerHeight;
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>
